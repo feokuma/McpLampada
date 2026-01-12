@@ -1,2 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using McpLampada;
+
+var server = new McpServer();
+await server.RunAsync();
