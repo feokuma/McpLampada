@@ -1,12 +1,21 @@
 # McpLampada
 
-MCP Server em .NET que controla uma lâmpada (GPIO) em uma Raspberry Pi, acessível via rede HTTP. A execução acontece sempre na Raspberry Pi, mas a compilação/publicação é feita fora da Raspberry Pi (em uma máquina de desenvolvimento).
+MCP Server em .NET que controla uma lâmpada (GPIO) em uma Raspberry Pi, acessível via rede HTTP. Utiliza o SDK oficial do Model Context Protocol (ModelContextProtocol v0.5.0-preview.1).
 
 ## Requisitos
 - Máquina de desenvolvimento com .NET 10.0 SDK para publicar os binários.
 - Raspberry Pi com .NET 10.0 Runtime instalado.
 - Raspberry Pi com pino GPIO disponível (exemplo usa GPIO2 / pino físico 3).
 - Rede acessível para o VS Code/GitHub Copilot se conectar à Pi.
+
+## Build do projeto
+Para fazer build do projeto na máquina de desenvolvimento com arquitetura ARM64, use:
+
+```bash
+dotnet build McpLampada.csproj --arch arm64 -c Release
+```
+
+**Nota:** Ao usar `--arch` com `dotnet build`, você deve especificar o arquivo de projeto diretamente, não a solução. Não use `dotnet build McpLampada.sln --arch arm64`, pois resultará no erro NETSDK1134.
 
 ## Publicar em máquina de desenvolvimento (cross-targeting ARM)
 Gere os artefatos para a arquitetura da sua Raspberry Pi usando os RIDs:
