@@ -1,4 +1,5 @@
 using System.Device.Gpio;
+using Microsoft.AspNetCore.Mvc;
 
 namespace McpLampada.Controllers;
 

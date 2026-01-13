@@ -1,0 +1,59 @@
+### Initialize
+POST http://192.168.15.10:5000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "initialize",
+  "params": {}
+}
+
+### List Tools
+POST http://192.168.15.10:5000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "method": "tools/list",
+  "params": {}
+}
+### Ligar Lâmpada
+POST http://192.168.15.10:5000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "method": "tools/call",
+  "params": {
+    "name": "ligar_lampada"
+  }
+}
+
+### Desligar Lâmpada
+POST http://192.168.15.10:5000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "method": "tools/call",
+  "params": {
+    "name": "desligar_lampada"
+  }
+}
+
+### Status da Lâmpada
+POST http://192.168.15.10:5000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "method": "tools/call",
+  "params": {
+    "name": "status_lampada"
+  }
+}
