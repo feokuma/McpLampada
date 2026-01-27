@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Raspberry Pi",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "deploy-to-pi",
+      "program": "/home/pi/McpLampada/McpLampada",
+      "args": [],
+      "cwd": "/home/pi/McpLampada",
+      "pipeTransport": {
+        "pipeProgram": "ssh",
+        "pipeArgs": ["pi@192.168.15.10"],
+        "debuggerPath": "/home/pi/.vsdbg/vsdbg",
+        "pipeCwd": "${workspaceFolder}"
+      },
+      "env": {
+        "ASPNETCORE_URLS": "http://0.0.0.0:5000",
+        "DOTNET_ROOT": "/home/pi/.dotnet",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "stopAtEntry": false,
+      "justMyCode": true
+    }
+  ]
+}
