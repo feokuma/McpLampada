@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "publish-debug",
+      "type": "shell",
+      "command": "dotnet publish -c Debug -r linux-arm64 --self-contained false",
+      "group": "build",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "deploy-to-pi",
+      "type": "shell",
+      "dependsOn": "publish-debug",
+      "command": "scp",
+      "args": [
+        "-r",
+        "./bin/Debug/net10.0/linux-arm64/publish/*",
+        "pi@192.168.15.10:/home/pi/McpLampada"
+      ]
+    }
+  ]
+}
