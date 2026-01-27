@@ -15,6 +15,6 @@ builder.Services
 var app = builder.Build();
 
 // Mapear endpoint MCP
-app.MapMcp();
+app.MapMcp("/mcp");
 
 await app.RunAsync();
