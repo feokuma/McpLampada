@@ -1,5 +1,4 @@
 using System.Device.Gpio;
-using Microsoft.AspNetCore.Mvc;
 
 namespace McpLampada.Controllers;
 
@@ -20,13 +19,13 @@ public class LampadaController
 
     public void Ligar()
     {
-        _controller.Write(_pin, PinValue.High);
+        _controller.Write(_pin, PinValue.Low);
         _ligada = true;
     }
 
     public void Desligar()
     {
-        _controller.Write(_pin, PinValue.Low);
+        _controller.Write(_pin, PinValue.High);
         _ligada = false;
     }
 
