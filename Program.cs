@@ -8,7 +8,16 @@ builder.Services.AddSingleton<McpService>();
 
 // Configurar servidor MCP
 builder.Services
-    .AddMcpServer()
+    .AddMcpServer(options =>
+    {
+        options.ServerInfo = new() 
+        { 
+            Name = "lampada_dotnet",   
+            Title = "Controle de Lâmpada via MCP",
+            Description = "Servidor MCP para controlar uma lâmpada conectada ao GPIO.",
+            Version = "1.0.0",
+        };
+    })
     .WithHttpTransport()
     .WithToolsFromAssembly()
     .WithResourcesFromAssembly();
