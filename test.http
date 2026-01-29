@@ -7,7 +7,16 @@ Content-Type: application/json
   "jsonrpc": "2.0",
   "id": 1,
   "method": "initialize",
-  "params": {}
+  "params": {
+    "protocolVersion": "2024-11-05",
+    "capabilities": {
+      "tools": {}
+    },
+    "clientInfo": {
+      "name": "test-client",
+      "version": "1.0.0"
+    }
+  }
 }
 
 ### List Tools
@@ -21,6 +30,7 @@ Content-Type: application/json
   "method": "tools/list",
   "params": {}
 }
+
 ### Ligar Lâmpada
 POST http://192.168.15.10:5000/mcp
 Accept: application/json, text/event-stream
@@ -62,3 +72,11 @@ Content-Type: application/json
     "name": "status_lampada"
   }
 }
+
+### GET - Manter conexão streaming (SSE)
+GET http://192.168.15.10:5000/mcp
+Accept: application/json, text/event-stream
+
+### DELETE - Encerrar sessão MCP
+DELETE http://192.168.15.10:5000/mcp
+Accept: application/json, text/event-stream
