@@ -9,6 +9,7 @@ public class McpService
     private readonly LampadaController _lampada;
     private readonly JsonSerializerOptions _jsonOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
     private bool _initialized;
+    private string? _sessionId;
 
     public McpService(LampadaController lampada)
     {
@@ -55,6 +56,7 @@ public class McpService
     private string HandleInitialize(JsonNode? id)
     {
         _initialized = true;
+        _sessionId = Guid.NewGuid().ToString("N");
 
         var result = new JsonObject
         {
@@ -74,6 +76,17 @@ public class McpService
         };
 
         return CreateResponse(id, result);
+    }
+
+    public void HandleSessionClose(string? sessionId)
+    {
+        if (!string.IsNullOrEmpty(sessionId) && sessionId == _sessionId)
+        {
+            _initialized = false;
+            _sessionId = null;
+            // Cleanup: desligar lâmpada ao fechar sessão
+            _lampada.Desligar();
+        }
     }
 
     private string HandleToolsList(JsonNode? id)

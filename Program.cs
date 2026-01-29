@@ -20,4 +20,13 @@ app.MapPost("/mcp", async (HttpContext context, McpService mcpService) =>
     await context.Response.WriteAsync(response);
 });
 
+// MCP endpoint - DELETE para encerrar sessão
+app.MapDelete("/mcp", (HttpContext context, McpService mcpService) =>
+{
+    var sessionId = context.Request.Headers["Mcp-Session-Id"].FirstOrDefault();
+    mcpService.HandleSessionClose(sessionId);
+    
+    return Results.Ok(new { message = "Sessão MCP encerrada com sucesso." });
+});
+
 await app.RunAsync();
