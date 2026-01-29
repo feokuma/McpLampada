@@ -1,5 +1,6 @@
 ### Initialize
 POST http://192.168.15.10:5000/mcp
+Accept: application/json, text/event-stream
 Content-Type: application/json
 
 {
@@ -11,6 +12,7 @@ Content-Type: application/json
 
 ### List Tools
 POST http://192.168.15.10:5000/mcp
+Accept: application/json, text/event-stream
 Content-Type: application/json
 
 {
@@ -21,6 +23,7 @@ Content-Type: application/json
 }
 ### Ligar Lâmpada
 POST http://192.168.15.10:5000/mcp
+Accept: application/json, text/event-stream
 Content-Type: application/json
 
 {
@@ -34,6 +37,7 @@ Content-Type: application/json
 
 ### Desligar Lâmpada
 POST http://192.168.15.10:5000/mcp
+Accept: application/json, text/event-stream
 Content-Type: application/json
 
 {
@@ -47,6 +51,7 @@ Content-Type: application/json
 
 ### Status da Lâmpada
 POST http://192.168.15.10:5000/mcp
+Accept: application/json, text/event-stream
 Content-Type: application/json
 
 {
