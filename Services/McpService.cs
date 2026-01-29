@@ -44,6 +44,8 @@ public class McpService
                 "initialize" => HandleInitialize(id),
                 "tools/list" => HandleToolsList(id),
                 "tools/call" => HandleToolsCall(id, parameters),
+                "resources/list" => HandleResourcesList(id),
+                "resources/read" => HandleResourcesRead(id, parameters),
                 _ => CreateErrorResponse(id, "method_not_found", $"Método '{method}' não é suportado.")
             };
         }
@@ -71,6 +73,11 @@ public class McpService
                 ["tools"] = new JsonObject
                 {
                     ["listChanged"] = true
+                },
+                ["resources"] = new JsonObject
+                {
+                    ["subscribe"] = false,
+                    ["listChanged"] = false
                 }
             }
         };
@@ -117,18 +124,75 @@ public class McpService
                 ["name"] = "desligar_lampada",
                 ["description"] = "Desliga a lâmpada conectada ao pino GPIO configurado.",
                 ["inputSchema"] = noArgsSchema.DeepClone()
-            },
-            new JsonObject
-            {
-                ["name"] = "status_lampada",
-                ["description"] = "Retorna se a lâmpada está ligada ou desligada.",
-                ["inputSchema"] = noArgsSchema.DeepClone()
             }
         };
 
         var result = new JsonObject
         {
             ["tools"] = tools
+        };
+
+        return CreateResponse(id, result);
+    }
+
+    private string HandleResourcesList(JsonNode? id)
+    {
+        if (!_initialized)
+        {
+            return CreateErrorResponse(id, "not_initialized", "Chame 'initialize' antes de listar resources.");
+        }
+
+        var resources = new JsonArray
+        {
+            new JsonObject
+            {
+                ["uri"] = "lampada://status",
+                ["name"] = "Status da Lâmpada",
+                ["description"] = "Estado atual da lâmpada (ligada ou desligada)",
+                ["mimeType"] = "text/plain"
+            }
+        };
+
+        var result = new JsonObject
+        {
+            ["resources"] = resources
+        };
+
+        return CreateResponse(id, result);
+    }
+
+    private string HandleResourcesRead(JsonNode? id, JsonObject parameters)
+    {
+        if (!_initialized)
+        {
+            return CreateErrorResponse(id, "not_initialized", "Chame 'initialize' antes de ler resources.");
+        }
+
+        var uri = parameters["uri"]?.ToString();
+        if (string.IsNullOrWhiteSpace(uri))
+        {
+            return CreateErrorResponse(id, "invalid_params", "Parâmetro 'uri' é obrigatório.");
+        }
+
+        if (uri != "lampada://status")
+        {
+            return CreateErrorResponse(id, "resource_not_found", $"Resource '{uri}' não existe.");
+        }
+
+        bool ligada = _lampada.Status();
+        string statusText = ligada ? "ligada" : "desligada";
+
+        var result = new JsonObject
+        {
+            ["contents"] = new JsonArray
+            {
+                new JsonObject
+                {
+                    ["uri"] = "lampada://status",
+                    ["mimeType"] = "text/plain",
+                    ["text"] = statusText
+                }
+            }
         };
 
         return CreateResponse(id, result);
@@ -157,10 +221,6 @@ public class McpService
             case "desligar_lampada":
                 _lampada.Desligar();
                 statusText = "Lâmpada desligada com sucesso.";
-                break;
-            case "status_lampada":
-                bool ligada = _lampada.Status();
-                statusText = ligada ? "A lâmpada está ligada." : "A lâmpada está desligada.";
                 break;
             default:
                 return CreateErrorResponse(id, "tool_not_found", "Ferramenta solicitada não existe.");
