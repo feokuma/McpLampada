@@ -10,7 +10,8 @@ builder.Services.AddSingleton<McpService>();
 builder.Services
     .AddMcpServer()
     .WithHttpTransport()
-    .WithToolsFromAssembly();
+    .WithToolsFromAssembly()
+    .WithResourcesFromAssembly();
 
 var app = builder.Build();
 

@@ -4,7 +4,7 @@ using ModelContextProtocol.Server;
 
 namespace McpLampada.Services;
 
-[McpServerToolType]
+[McpServerToolType, McpServerResourceType]
 public class McpService
 {
     private readonly LampadaController _lampada;
@@ -28,10 +28,10 @@ public class McpService
         return "Lâmpada desligada com sucesso.";
     }
 
-    [McpServerTool, Description("Retorna se a lâmpada está ligada ou desligada.")]
+    [McpServerResource(UriTemplate = "lampada://status"), Description("Retorna se a lâmpada está ligada ou desligada.")]
     public string StatusLampada()
     {
         bool ligada = _lampada.Status();
-        return ligada ? "A lâmpada está ligada." : "A lâmpada está desligada.";
+        return ligada ? "ligada" : "desligada";
     }
 }
